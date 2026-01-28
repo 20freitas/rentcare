@@ -1,0 +1,126 @@
+.section {
+    padding: 6rem 0;
+    background: #f8fafc;
+    /* Slightly darker than white */
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.title {
+    font-size: 2.25rem;
+    color: var(--foreground);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stepWrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stepCard {
+    background: transparent;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.iconCircle {
+    width: 72px;
+    height: 72px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.stepCard:hover .iconCircle {
+    transform: scale(1.1);
+    border-color: var(--secondary);
+}
+
+.stepTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 0.75rem;
+}
+
+.stepDesc {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+.connector {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .steps {
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
+    }
+
+    .connector {
+        width: 2px;
+        height: 50px;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .stepWrapper:last-child .connector {
+        display: none;
+    }
+}

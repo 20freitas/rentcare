@@ -1,27 +1,29 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
+  --foreground: #0f172a;
+  /* Slate 900 */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Modern Professional Palette */
+  --primary: #0f172a;
+  /* Strong Black/Slate for main actions */
+  --primary-hover: #334155;
+  --secondary: #7aa9ca;
+  /* Soft Blue for details/accents */
+  --text-muted: #64748b;
+  /* Slate 500 for secondary text */
+  --accent: #e2e8f0;
+  /* Slate 200 for borders/backgrounds */
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  /* Clean Glass/Surface */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-blur: 16px;
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Spacing & Layout */
+  --max-width: 1200px;
+  --nav-height: 80px;
+  --radius: 8px;
+  /* Slightly sharper for professional feel */
 }
 
 * {
@@ -30,13 +32,36 @@ body {
   margin: 0;
 }
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
