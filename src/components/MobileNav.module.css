@@ -1,0 +1,70 @@
+.mobileNav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 1rem;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: #64748b;
+}
+
+.logo b {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #0f172a;
+    padding: 0.5rem;
+    margin-right: -0.5rem;
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 0;
+    /* allows text truncation if needed */
+}
+
+.navItemActive {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.navItemActive svg {
+    color: #2563eb;
+    /* Primary blue */
+}
+
+@media (max-width: 768px) {
+    .mobileNav {
+        display: flex;
+    }
+}

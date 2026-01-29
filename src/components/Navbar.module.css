@@ -161,3 +161,17 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+@media (max-width: 768px) {
+    .links {
+        display: none;
+    }
+
+    .mobileMenuBtn {
+        display: block;
+    }
+
+    .container {
+        padding: 0 1.5rem;
+    }
+}

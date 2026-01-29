@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.content {
+    margin-left: 280px;
+    flex: 1;
+    padding: 2rem;
+    width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+        padding-top: 80px;
+        /* Space for top header */
+        padding-bottom: 2rem;
+    }
+}

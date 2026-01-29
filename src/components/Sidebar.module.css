@@ -12,6 +12,12 @@
     padding: 1.5rem 1rem;
 }
 
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
+
 .logo {
     display: flex;
     align-items: center;

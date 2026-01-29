@@ -94,9 +94,11 @@ export default function Hero() {
                             <div className={styles.addressBar}>rentcare.pt</div>
                         </div>
                         <div className={styles.browserContent}>
-                            <div className={styles.placeholderState}>
-                                <p>Dashboard Preview</p>
-                            </div>
+                            <img
+                                src="/dashboard.png"
+                                alt="Dashboard Preview"
+                                style={{ width: '100%', height: 'auto', display: 'block' }}
+                            />
                         </div>
                     </div>
                 </motion.div>

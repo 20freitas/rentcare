@@ -7,6 +7,7 @@ import PropertyCard from '@/components/dashboard/PropertyCard';
 import PropertyStats from '@/components/dashboard/PropertyStats';
 import AddPropertyModal from '@/components/dashboard/AddPropertyModal';
 import { supabase } from '@/lib/supabase';
+import styles from './Properties.module.css';
 
 // Map DB row to Property type
 const mapProperty = (dbRow: any): Property => ({
@@ -161,24 +162,11 @@ export default function PropertiesPage() {
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#0f172a' }}>Meus Imóveis</h1>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Meus Imóveis</h1>
                 <button
                     onClick={() => setIsAddModalOpen(true)}
-                    style={{
-                        background: '#7aa9ca', // Fixed: Brand Blue from Landing Page
-                        color: 'white',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '8px',
-                        fontWeight: 600,
-                        border: 'none',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(122, 169, 202, 0.5)',
-                        transition: 'transform 0.1s'
-                    }}
+                    className={styles.addButton}
                 >
                     <Plus size={20} />
                     Adicionar Imóvel
@@ -189,49 +177,29 @@ export default function PropertiesPage() {
             <PropertyStats properties={properties} />
 
             {/* Filter & Search */}
-            <div style={{
-                background: 'white',
-                padding: '1rem',
-                borderRadius: '12px',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                gap: '1rem',
-                alignItems: 'center',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-            }}>
-                <div style={{ position: 'relative', flex: 1 }}> {/* Fixed: Removed maxWidth */}
-                    <Search size={20} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <div className={styles.filterSection}>
+                <div className={styles.searchContainer}>
+                    <Search size={20} className={styles.searchIcon} />
                     <input
                         type="text"
                         placeholder="Pesquisar por morada ou inquilino..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '0.75rem 0.75rem 0.75rem 2.8rem',
-                            border: '1px solid #e2e8f0',
-                            borderRadius: '8px',
-                            outline: 'none',
-                            fontSize: '0.95rem'
-                        }}
+                        className={styles.searchInput}
                     />
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div className={styles.filterButtons}>
                     {/* Filter Buttons */}
                     {['all', 'paid', 'late'].map((f) => (
                         <button
                             key={f}
                             onClick={() => setFilter(f as any)}
+                            className={styles.filterBtn}
                             style={{
-                                padding: '0.6rem 1.2rem',
-                                borderRadius: '8px',
                                 border: filter === f ? '1px solid transparent' : '1px solid #e2e8f0',
                                 background: filter === f ? '#e2e8f0' : 'white',
                                 color: filter === f ? '#0f172a' : '#64748b',
-                                fontWeight: 500,
-                                cursor: 'pointer',
-                                textTransform: 'capitalize'
                             }}
                         >
                             {f === 'all' ? 'Todos' : f === 'paid' ? 'Pagos' : 'Em Atraso'}
@@ -241,11 +209,7 @@ export default function PropertiesPage() {
             </div>
 
             {/* Grid */}
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                gap: '1.5rem'
-            }}>
+            <div className={styles.grid}>
                 {loading ? (
                     <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#94a3b8' }}>A carregar imóveis...</p>
                 ) : filteredProperties.map(property => (
@@ -300,7 +264,7 @@ export default function PropertiesPage() {
                         background: 'white',
                         borderRadius: '12px',
                         padding: '1.5rem',
-                        width: '100%',
+                        width: '90%', // Mobile friendly
                         maxWidth: '400px',
                         boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
                         animation: 'scaleIn 0.2s ease-out'
