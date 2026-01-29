@@ -1,3 +1,5 @@
+/* Existing styles... */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -28,12 +30,10 @@
     gap: 0.6rem;
     font-size: 1.5rem;
     color: #64748b;
-    /* Care is gray */
     text-decoration: none;
     font-weight: 400;
     letter-spacing: -0.03em;
     z-index: 1001;
-    /* Ensure logo stays above menu */
 }
 
 .logoIcon {
@@ -45,7 +45,6 @@
 .logo b {
     font-weight: 800;
     color: var(--foreground);
-    /* Rent is black */
 }
 
 /* Desktop Links */
@@ -73,17 +72,45 @@
     padding: 0.6rem 1.4rem;
     border-radius: var(--radius);
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     font-size: 0.9rem;
     box-shadow: 0 4px 6px -1px rgba(122, 169, 202, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .button:hover {
     transform: translateY(-1px);
     background: #6290b0;
     box-shadow: 0 6px 12px rgba(122, 169, 202, 0.3);
+}
+
+/* New Dashboard Button Style */
+.dashboardBtn {
+    background: var(--foreground);
+    /* Dark/Black for premium feel */
+    border: 1px solid transparent;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboardBtn:hover {
+    transform: translateY(-1px);
+    background: #334155;
+    /* Slightly lighter dark gray */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Mobile Menu Button */
@@ -129,14 +156,8 @@
     font-weight: 600;
     width: 100%;
     text-align: center;
-}
-
-@media (max-width: 1024px) {
-    .links {
-        display: none;
-    }
-
-    .mobileMenuBtn {
-        display: block;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }

@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'Nunca mais se esqueça de uma renda. Gestão de imóveis, inquilinos e contratos num só sítio.',
 };
 
+import Navbar from '@/components/Navbar';
+
 export default function RootLayout({
   children,
 }: {
@@ -16,7 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
