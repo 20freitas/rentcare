@@ -1,0 +1,118 @@
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    padding: 1.5rem 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    margin-bottom: 2.5rem;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #64748b;
+    font-weight: 400;
+}
+
+.logo b {
+    font-weight: 800;
+    color: var(--foreground);
+}
+
+.logoIcon {
+    width: 40px;
+    height: 40px;
+}
+
+.navSection {
+    margin-bottom: 2rem;
+}
+
+.sectionTitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    padding: 0 1rem;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.navLink:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.navLinkActive {
+    background-color: #f0f9ff;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.navLinkActive svg {
+    color: var(--secondary);
+}
+
+.footer {
+    margin-top: auto;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1.5rem;
+}
+
+.userProfile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.userEmail {
+    font-size: 0.8rem;
+    color: #64748b;
+}

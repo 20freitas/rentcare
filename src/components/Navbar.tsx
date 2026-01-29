@@ -16,6 +16,9 @@ export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
+    // Hide Navbar on Dashboard routes
+    const isDashboard = pathname?.startsWith('/dashboard');
+
     useEffect(() => {
         // Initial check
         const checkUser = async () => {
@@ -35,6 +38,8 @@ export default function Navbar() {
 
         return () => subscription.unsubscribe();
     }, [pathname, router]);
+
+    if (isDashboard) return null;
 
     return (
         <nav className={styles.navbar}>
