@@ -160,7 +160,7 @@ export default function PropertyCard({ property, onMarkPaid, onDelete, onDetails
                         }}>
                             <Calendar size={16} />
                         </div>
-                        <div style={{ textAlign: 'right' }}>
+                        <div style={{ textAlign: 'left' }}>
                             <p style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Dia Pag.</p>
                             <p style={{ fontSize: '0.875rem', color: '#334155', fontWeight: 500 }}>
                                 {property.paymentDay}
