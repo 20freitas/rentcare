@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, LogIn } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, LogIn } from 'lucide-react';
 import styles from '@/components/AuthLayout.module.css';
 
-export default function Login() {
+function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const message = searchParams.get('message');
@@ -152,5 +152,13 @@ export default function Login() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function Login() {
+    return (
+        <Suspense fallback={<div className="flex min-h-screen items-center justify-center">A carregar...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }
