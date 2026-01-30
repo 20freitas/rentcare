@@ -1,169 +1,223 @@
- 'use client';
- 
- import { useEffect, useState } from 'react';
- import { supabase } from '@/lib/supabase';
- import { Bell, Mail } from 'lucide-react';
- 
- interface NotificationSettings {
-   email_enabled: boolean;
-   notify_5days: boolean;
-   notify_1day: boolean;
-   email?: string | null;
- }
- 
- export default function SettingsPage() {
-   const [loading, setLoading] = useState(true);
-   const [userEmail, setUserEmail] = useState<string>('');
-   const [settings, setSettings] = useState<NotificationSettings>({
-     email_enabled: false,
-     notify_5days: true,
-     notify_1day: true,
-     email: '',
-   });
- 
-   useEffect(() => {
-     const init = async () => {
-       const { data: { session } } = await supabase.auth.getSession();
-       const uid = session?.user?.id;
-       const uemail = session?.user?.email || '';
-       setUserEmail(uemail);
-       if (!uid) {
-         setLoading(false);
-         return;
-       }
- 
-       const { data } = await supabase
-         .from('notification_settings')
-         .select('*')
-         .eq('user_id', uid)
-         .maybeSingle();
- 
-       if (!data) {
-         await supabase
-           .from('notification_settings')
-           .insert({
-             user_id: uid,
-             email_enabled: false,
-             notify_5days: true,
-             notify_1day: true,
-             email: null,
-           });
-         setSettings({
-           email_enabled: false,
-           notify_5days: true,
-           notify_1day: true,
-           email: '',
-         });
-       } else {
-         setSettings({
-           email_enabled: !!data.email_enabled,
-           notify_5days: !!data.notify_5days,
-           notify_1day: !!data.notify_1day,
-           email: (data.email as string) || '',
-         });
-       }
-       setLoading(false);
-     };
-     init();
-   }, []);
- 
-   const updateSetting = async (patch: Partial<NotificationSettings>) => {
-     setSettings((s) => ({ ...s, ...patch }));
-     const { data: { session } } = await supabase.auth.getSession();
-     const uid = session?.user?.id;
-     if (!uid) return;
-     await supabase
-       .from('notification_settings')
-       .update(patch)
-       .eq('user_id', uid);
-   };
- 
-   return (
-     <div>
-       <h1 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>Definições</h1>
- 
-       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
-         <div style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-             <div style={{ background: '#eff6ff', padding: 10, borderRadius: '50%', color: '#1d4ed8' }}>
-               <Bell size={20} />
-             </div>
-             <div>
-               <p style={{ fontSize: '0.95rem', color: '#0f172a', fontWeight: 700 }}>Notificações por Email</p>
-               <p style={{ fontSize: '0.85rem', color: '#64748b' }}>Receber alertas de pagamentos e fim de contratos</p>
-             </div>
-           </div>
- 
-           {loading ? (
-             <p style={{ color: '#64748b' }}>A carregar...</p>
-           ) : (
-             <>
-               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid #e2e8f0' }}>
-                 <div>
-                   <div style={{ fontWeight: 600, color: '#0f172a' }}>Ativar emails</div>
-                   <div style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                     Enviar para: <span style={{ fontWeight: 600, color: '#334155' }}>{settings.email?.trim() || userEmail}</span>
-                   </div>
-                 </div>
-                 <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                   <input
-                     type="checkbox"
-                     checked={settings.email_enabled}
-                     onChange={(e) => updateSetting({ email_enabled: e.target.checked })}
-                   />
-                   <span style={{ color: settings.email_enabled ? '#16a34a' : '#64748b', fontWeight: 600 }}>
-                     {settings.email_enabled ? 'On' : 'Off'}
-                   </span>
-                 </label>
-               </div>
- 
-               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem', opacity: settings.email_enabled ? 1 : 0.5 }}>
-                 <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', padding: '1rem' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                     <Mail size={18} />
-                     <span style={{ fontWeight: 600, color: '#0f172a' }}>Aviso 5 dias antes</span>
-                   </div>
-                   <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
-                     Receber um email 5 dias antes da data.
-                   </p>
-                   <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: settings.email_enabled ? 'pointer' : 'not-allowed' }}>
-                     <input
-                       type="checkbox"
-                       disabled={!settings.email_enabled}
-                       checked={settings.notify_5days}
-                       onChange={(e) => updateSetting({ notify_5days: e.target.checked })}
-                     />
-                     <span style={{ color: settings.notify_5days ? '#16a34a' : '#64748b', fontWeight: 600 }}>
-                       {settings.notify_5days ? 'On' : 'Off'}
-                     </span>
-                   </label>
-                 </div>
- 
-                 <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', padding: '1rem' }}>
-                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                     <Mail size={18} />
-                     <span style={{ fontWeight: 600, color: '#0f172a' }}>Aviso 1 dia antes</span>
-                   </div>
-                   <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
-                     Receber um email 1 dia antes da data.
-                   </p>
-                   <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: settings.email_enabled ? 'pointer' : 'not-allowed' }}>
-                     <input
-                       type="checkbox"
-                       disabled={!settings.email_enabled}
-                       checked={settings.notify_1day}
-                       onChange={(e) => updateSetting({ notify_1day: e.target.checked })}
-                     />
-                     <span style={{ color: settings.notify_1day ? '#16a34a' : '#64748b', fontWeight: 600 }}>
-                       {settings.notify_1day ? 'On' : 'Off'}
-                     </span>
-                   </label>
-                 </div>
-               </div>
-             </>
-           )}
-         </div>
-       </div>
-     </div>
-   );
- }
+'use client';
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { Bell, Mail, Clock, AlertCircle } from 'lucide-react';
+import clsx from 'clsx';
+import styles from './Settings.module.css';
+
+interface NotificationSettings {
+  email_enabled: boolean;
+  notify_5days: boolean;
+  notify_1day: boolean;
+  notify_overdue?: boolean;
+  email?: string | null;
+}
+
+export default function SettingsPage() {
+  const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [settings, setSettings] = useState<NotificationSettings>({
+    email_enabled: false,
+    notify_5days: true,
+    notify_1day: true,
+    notify_overdue: true,
+    email: '',
+  });
+
+  useEffect(() => {
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const uid = session?.user?.id;
+      const uemail = session?.user?.email || '';
+      setUserEmail(uemail);
+      if (!uid) {
+        setLoading(false);
+        return;
+      }
+
+      const { data } = await supabase
+        .from('notification_settings')
+        .select('*')
+        .eq('user_id', uid)
+        .maybeSingle();
+
+      if (!data) {
+        await supabase
+          .from('notification_settings')
+          .insert({
+            user_id: uid,
+            email_enabled: false,
+            notify_5days: true,
+            notify_1day: true,
+            notify_overdue: true,
+            email: null,
+          });
+        setSettings({
+          email_enabled: false,
+          notify_5days: true,
+          notify_1day: true,
+          notify_overdue: true,
+          email: '',
+        });
+      } else {
+        setSettings({
+          email_enabled: !!data.email_enabled,
+          notify_5days: !!data.notify_5days,
+          notify_1day: !!data.notify_1day,
+          notify_overdue: data.notify_overdue !== false,
+          email: (data.email as string) || '',
+        });
+      }
+      setLoading(false);
+    };
+    init();
+  }, []);
+
+  const updateSetting = async (patch: Partial<NotificationSettings>) => {
+    setSettings((s) => ({ ...s, ...patch }));
+    const { data: { session } } = await supabase.auth.getSession();
+    const uid = session?.user?.id;
+    if (!uid) return;
+    await supabase
+      .from('notification_settings')
+      .update(patch)
+      .eq('user_id', uid);
+  };
+
+  return (
+    <div>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Definições</h1>
+      </header>
+
+      <div className={styles.card}>
+        <div className={styles.cardHeader}>
+          <div className={styles.cardIcon}>
+            <Bell size={22} />
+          </div>
+          <div>
+            <p className={styles.cardTitle}>Notificações por email</p>
+            <p className={styles.cardDescription}>
+              Receba alertas de pagamentos, fim de contratos e pagamentos em atraso.
+            </p>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className={styles.loading}>
+            <span className={styles.loadingDot} />
+            <span className={styles.loadingDot} />
+            <span className={styles.loadingDot} />
+            <span>A carregar...</span>
+          </div>
+        ) : (
+          <>
+            <div className={styles.toggleRow}>
+              <div className={styles.toggleLabel}>
+                <div className={styles.toggleTitle}>Ativar emails</div>
+                <div className={styles.toggleHint}>
+                  Enviar para: <strong>{settings.email?.trim() || userEmail || '—'}</strong>
+                </div>
+              </div>
+              <label className={styles.switch} title={settings.email_enabled ? 'Desativar' : 'Ativar'}>
+                <input
+                  type="checkbox"
+                  checked={settings.email_enabled}
+                  onChange={(e) => updateSetting({ email_enabled: e.target.checked })}
+                />
+                <span className={styles.slider} />
+              </label>
+            </div>
+
+            <div
+              className={styles.optionsGrid}
+              style={{ opacity: settings.email_enabled ? 1 : 0.6 }}
+            >
+              <div
+                className={clsx(
+                  styles.optionCard,
+                  settings.notify_5days && styles.optionCardActive
+                )}
+              >
+                <div className={styles.optionCardHeader}>
+                  <Clock size={18} className={styles.optionCardIcon} />
+                  <span className={styles.optionCardTitle}>Aviso 5 dias antes</span>
+                </div>
+                <p className={styles.optionCardDescription}>
+                  Receber um email 5 dias antes da data de pagamento ou fim de contrato.
+                </p>
+                <div className={styles.optionCardToggle}>
+                  <span>{settings.notify_5days ? 'Ativo' : 'Inativo'}</span>
+                  <label className={styles.switch}>
+                    <input
+                      type="checkbox"
+                      disabled={!settings.email_enabled}
+                      checked={settings.notify_5days}
+                      onChange={(e) => updateSetting({ notify_5days: e.target.checked })}
+                    />
+                    <span className={styles.slider} />
+                  </label>
+                </div>
+              </div>
+
+              <div
+                className={clsx(
+                  styles.optionCard,
+                  settings.notify_1day && styles.optionCardActive
+                )}
+              >
+                <div className={styles.optionCardHeader}>
+                  <Mail size={18} className={styles.optionCardIcon} />
+                  <span className={styles.optionCardTitle}>Aviso 1 dia antes</span>
+                </div>
+                <p className={styles.optionCardDescription}>
+                  Receber um email 1 dia antes da data.
+                </p>
+                <div className={styles.optionCardToggle}>
+                  <span>{settings.notify_1day ? 'Ativo' : 'Inativo'}</span>
+                  <label className={styles.switch}>
+                    <input
+                      type="checkbox"
+                      disabled={!settings.email_enabled}
+                      checked={settings.notify_1day}
+                      onChange={(e) => updateSetting({ notify_1day: e.target.checked })}
+                    />
+                    <span className={styles.slider} />
+                  </label>
+                </div>
+              </div>
+
+              <div
+                className={clsx(
+                  styles.optionCard,
+                  settings.notify_overdue !== false && styles.optionCardActive
+                )}
+              >
+                <div className={styles.optionCardHeader}>
+                  <AlertCircle size={18} className={styles.optionCardIcon} />
+                  <span className={styles.optionCardTitle}>Pagamento em atraso</span>
+                </div>
+                <p className={styles.optionCardDescription}>
+                  Avisar quando o prazo de pagamento já tiver sido ultrapassado.
+                </p>
+                <div className={styles.optionCardToggle}>
+                  <span>{settings.notify_overdue !== false ? 'Ativo' : 'Inativo'}</span>
+                  <label className={styles.switch}>
+                    <input
+                      type="checkbox"
+                      disabled={!settings.email_enabled}
+                      checked={settings.notify_overdue !== false}
+                      onChange={(e) => updateSetting({ notify_overdue: e.target.checked })}
+                    />
+                    <span className={styles.slider} />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

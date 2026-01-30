@@ -34,6 +34,7 @@ export const dynamic = 'force-dynamic';
    email_enabled: boolean;
    notify_5days: boolean;
    notify_1day: boolean;
+   notify_overdue?: boolean;
    email?: string | null;
  };
  
@@ -47,6 +48,18 @@ export const dynamic = 'force-dynamic';
      return new Date(year, month + 1, paymentDay);
    }
    return candidate;
+ }
+
+ /** Última data de pagamento já ocorrida (para detectar atraso). */
+ function lastPaymentDate(paymentDay?: number | null) {
+   if (!paymentDay || paymentDay < 1 || paymentDay > 31) return null;
+   const now = new Date();
+   const year = now.getFullYear();
+   const month = now.getMonth();
+   const todayStart = new Date(year, month, now.getDate()).getTime();
+   let candidate = new Date(year, month, paymentDay);
+   if (candidate.getTime() > todayStart) candidate = new Date(year, month - 1, paymentDay);
+   return candidate.getTime() <= todayStart ? candidate : null;
  }
  
  function daysUntil(dateStr: string) {
@@ -131,14 +144,22 @@ export async function GET(req: Request) {
        .select('id,property_id,type,file_name,tenant_name,expiration_date')
        .in('property_id', propertyIds.length > 0 ? propertyIds : ['00000000-0000-0000-0000-000000000000']);
  
-     const items: { type: 'Pagamento' | 'FimContrato'; date: string; line: string }[] = [];
- 
+     const items: { type: 'Pagamento' | 'Pagamento em atraso' | 'FimContrato'; date: string; line: string }[] = [];
+     const todayStart = new Date();
+     todayStart.setHours(0, 0, 0, 0);
+
      for (const t of (tenants || []) as TenantRow[]) {
        const nd = nextPaymentDate(t.payment_day ?? undefined);
        if (nd) {
          const p = (props || []).find((pp: PropertyRow) => pp.id === (t.property_id || ''));
          const line = `${t.name}${p ? ' · ' + (p.title || p.address) : ''}${t.rent_amount ? ' · €' + Number(t.rent_amount).toFixed(2) : ''}`;
          items.push({ type: 'Pagamento', date: nd.toISOString(), line });
+       }
+       const lastDue = lastPaymentDate(t.payment_day ?? undefined);
+       if (lastDue && lastDue.getTime() < todayStart.getTime()) {
+         const p = (props || []).find((pp: PropertyRow) => pp.id === (t.property_id || ''));
+         const line = `${t.name}${p ? ' · ' + (p.title || p.address) : ''}${t.rent_amount ? ' · €' + Number(t.rent_amount).toFixed(2) : ''}`;
+         items.push({ type: 'Pagamento em atraso', date: lastDue.toISOString(), line });
        }
      }
  
@@ -154,6 +175,7 @@ export async function GET(req: Request) {
        const d = daysUntil(it.date);
        if (d === 5 && s.notify_5days) return true;
        if (d === 1 && s.notify_1day) return true;
+       if (d <= 0 && (s.notify_overdue !== false)) return true;
        return false;
      });
  
@@ -173,7 +195,7 @@ export async function GET(req: Request) {
      const html = `
        <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; color: #0f172a;">
          <h2 style="margin: 0 0 12px;">Lembretes RentCare</h2>
-         <p>Tem eventos a ocorrer em breve:</p>
+         <p>Tem eventos em breve e/ou pagamentos em atraso:</p>
          <ul>${lines}</ul>
          <p style="color:#64748b;">Pode configurar estes avisos em Dashboard → Definições.</p>
        </div>

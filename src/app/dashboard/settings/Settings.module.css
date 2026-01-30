@@ -1,0 +1,250 @@
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardIcon {
+  background: #eff6ff;
+  padding: 12px;
+  border-radius: 50%;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.toggleRow:last-of-type {
+  border-bottom: none;
+}
+
+.toggleLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+.toggleTitle {
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.2rem;
+}
+
+.toggleHint {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.toggleHint strong {
+  color: #334155;
+}
+
+/* Switch styling */
+.switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+
+.slider::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.switch input:checked + .slider {
+  background: #7aa9ca;
+  box-shadow: 0 0 0 2px rgba(122, 169, 202, 0.3);
+}
+
+.switch input:checked + .slider::after {
+  transform: translateX(22px);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid #7aa9ca;
+  outline-offset: 2px;
+}
+
+.switch:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.optionCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.optionCard:hover {
+  border-color: #cbd5e1;
+}
+
+.optionCardActive {
+  border-color: #e0f2fe;
+  background: #f0f9ff;
+}
+
+.optionCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.optionCardIcon {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.optionCardActive .optionCardIcon {
+  color: #0ea5e9;
+}
+
+.optionCardTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.optionCardDescription {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.optionCardToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.optionCardToggle span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.optionCardActive .optionCardToggle span {
+  color: #0ea5e9;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  padding: 1rem 0;
+}
+
+.loadingDot {
+  width: 8px;
+  height: 8px;
+  background: #94a3b8;
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.loadingDot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loadingDot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .toggleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
