@@ -85,22 +85,6 @@ export default function PropertyCard({ property, onMarkPaid, onDelete, onDetails
                 </div>
 
                 {/* Price Overlay - Bottom Left of Image */}
-                <div style={{
-                    position: 'absolute',
-                    bottom: '12px',
-                    left: '12px',
-                    background: 'rgba(0, 0, 0, 0.65)',
-                    backdropFilter: 'blur(2px)',
-                    padding: '6px 12px',
-                    borderRadius: '8px',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '4px'
-                }}>
-                    <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>{property.rentAmount}€</span>
-                    <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>/mês</span>
-                </div>
             </div>
 
             {/* Content Body */}

@@ -8,7 +8,6 @@ interface PropertyStatsProps {
 export default function PropertyStats({ properties }: PropertyStatsProps) {
     const paidCount = properties.filter(p => p.status === 'paid').length;
     const lateCount = properties.filter(p => p.status === 'late').length;
-    const totalRent = properties.reduce((sum, p) => sum + p.rentAmount, 0);
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>

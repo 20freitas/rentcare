@@ -68,10 +68,6 @@ export default function Sidebar() {
                     <Home size={20} />
                     Imóveis
                 </Link>
-                <Link href="/dashboard/rents" className={`${styles.navLink} ${isActive('/dashboard/rents') ? styles.navLinkActive : ''}`}>
-                    <Banknote size={20} />
-                    Rendas
-                </Link>
                 <Link href="/dashboard/tenants" className={`${styles.navLink} ${isActive('/dashboard/tenants') ? styles.navLinkActive : ''}`}>
                     <Users size={20} />
                     Inquilinos
