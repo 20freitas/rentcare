@@ -15,6 +15,7 @@ interface AddPropertyModalProps {
 export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, isEdit }: AddPropertyModalProps) {
     const [title, setTitle] = useState(initialData?.title || '');
     const [address, setAddress] = useState(initialData?.address || '');
+    const [rentAmount, setRentAmount] = useState(initialData?.rentAmount?.toString() || '');
     const [paymentDay, setPaymentDay] = useState(initialData?.paymentDay?.toString() || '');
     const [tenantName, setTenantName] = useState(initialData?.tenantName || '');
     const [imageFile, setImageFile] = useState<File | null>(null);

@@ -1,0 +1,280 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.addButton {
+    background: #7aa9ca;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px -1px rgba(122, 169, 202, 0.5);
+    transition: transform 0.1s;
+}
+
+.addButton:hover {
+    transform: translateY(-1px);
+}
+
+.filterSection {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.searchContainer {
+    position: relative;
+    flex: 1;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.8rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.propertySelect {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    min-width: 200px;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+}
+
+.docListCard {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.docRow {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 1rem;
+}
+
+.docRow:last-child {
+    border-bottom: none;
+}
+
+.docInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.docName {
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+}
+
+.docMeta {
+    font-size: 0.85rem;
+    color: #64748b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.docActions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.docActions a,
+.docActions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.docActions a:hover,
+.docActions button:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.docActions button.deleteBtn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #64748b;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.modalBox {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    min-width: 320px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modalTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1.25rem;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.4rem;
+}
+
+.formInput,
+.formSelect {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.formInput:focus,
+.formSelect:focus {
+    outline: none;
+    border-color: #7aa9ca;
+    box-shadow: 0 0 0 2px rgba(122, 169, 202, 0.2);
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: none;
+    background: #7aa9ca;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(122, 169, 202, 0.3);
+}
+
+.submitBtn:hover:not(:disabled) {
+    filter: brightness(1.05);
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cancelBtn {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.cancelBtn:hover {
+    background: #f8fafc;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .addButton {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filterSection {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .propertySelect {
+        min-width: 100%;
+    }
+
+    .docRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .docActions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
