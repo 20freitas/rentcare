@@ -92,7 +92,16 @@ export default function Sidebar() {
                 {user && (
                     <div className={styles.userProfile}>
                         <div className={styles.avatar}>
-                            {user.email?.charAt(0).toUpperCase()}
+                            {(user.user_metadata?.avatar_url ?? user.user_metadata?.picture) ? (
+                                <img
+                                    src={user.user_metadata.avatar_url ?? user.user_metadata.picture}
+                                    alt=""
+                                    className={styles.avatarImg}
+                                    referrerPolicy="no-referrer"
+                                />
+                            ) : (
+                                (user.user_metadata?.name?.charAt(0) ?? user.email?.charAt(0) ?? '?').toUpperCase()
+                            )}
                         </div>
                         <div className={styles.userInfo}>
                             <span className={styles.userName}>
@@ -102,7 +111,7 @@ export default function Sidebar() {
                                 {user.email}
                             </span>
                         </div>
-                        <button onClick={handleLogout} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
+                        <button type="button" onClick={handleLogout} className={styles.logoutBtn} aria-label="Sair">
                             <LogOut size={18} />
                         </button>
                     </div>

@@ -1,0 +1,57 @@
+.wrapper {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: calc(var(--nav-height) + 2rem) 1rem 4rem;
+}
+
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.back {
+  display: inline-block;
+  color: var(--secondary);
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.updated {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+}
+
+.section p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+}
