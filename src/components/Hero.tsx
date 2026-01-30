@@ -12,16 +12,6 @@ export default function Hero() {
       <div className={styles.container}>
         {/* Left: text + CTA */}
         <div className={styles.content}>
-          <motion.span
-            className={styles.tag}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <span className={styles.tagDot} />
-            Gestão moderna
-          </motion.span>
-
           <motion.h1
             className={styles.title}
             initial={{ opacity: 0, y: 16 }}
@@ -56,26 +46,6 @@ export default function Hero() {
               Ver Funcionalidades
             </Link>
           </motion.div>
-
-          <motion.div
-            className={styles.benefits}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.28 }}
-          >
-            <div className={styles.benefitItem}>
-              <CheckCircle2 size={18} className={styles.checkIcon} />
-              <span>Gestão de Rendas</span>
-            </div>
-            <div className={styles.benefitItem}>
-              <CheckCircle2 size={18} className={styles.checkIcon} />
-              <span>Alertas Automáticos</span>
-            </div>
-            <div className={styles.benefitItem}>
-              <CheckCircle2 size={18} className={styles.checkIcon} />
-              <span>Contratos Organizados</span>
-            </div>
-          </motion.div>
         </div>
 
         {/* Right: illustration + floating icons */}
@@ -89,11 +59,11 @@ export default function Hero() {
           <Image
             src="/hero-illustration.png"
             alt="Gestão de imóveis e rendas - RentCare"
-            width={580}
-            height={400}
+            width={720}
+            height={460}
             className={styles.heroImage}
             priority
-            sizes="(max-width: 768px) 320px, (max-width: 1024px) 420px, 580px"
+            sizes="(max-width: 768px) 360px, (max-width: 1024px) 500px, 720px"
           />
           {/* Floating: checklist */}
           <motion.div
