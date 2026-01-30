@@ -78,6 +78,52 @@
   color: #334155;
 }
 
+.emailRow {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.emailLabel {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.emailInput {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: white;
+}
+
+.emailInput::placeholder {
+  color: #94a3b8;
+}
+
+.emailInput:focus {
+  outline: none;
+  border-color: #7aa9ca;
+  box-shadow: 0 0 0 2px rgba(122, 169, 202, 0.2);
+}
+
+.emailInput:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.emailHint {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.4rem;
+}
+
 /* Switch styling */
 .switch {
   position: relative;

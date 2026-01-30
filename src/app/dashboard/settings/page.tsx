@@ -17,6 +17,7 @@ interface NotificationSettings {
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
   const [settings, setSettings] = useState<NotificationSettings>({
     email_enabled: false,
     notify_5days: true,
@@ -60,14 +61,17 @@ export default function SettingsPage() {
           notify_overdue: true,
           email: '',
         });
+        setEmailInput('');
       } else {
+        const emailVal = (data.email as string) || '';
         setSettings({
           email_enabled: !!data.email_enabled,
           notify_5days: !!data.notify_5days,
           notify_1day: !!data.notify_1day,
           notify_overdue: data.notify_overdue !== false,
-          email: (data.email as string) || '',
+          email: emailVal,
         });
+        setEmailInput(emailVal);
       }
       setLoading(false);
     };
@@ -128,6 +132,29 @@ export default function SettingsPage() {
                 />
                 <span className={styles.slider} />
               </label>
+            </div>
+
+            <div className={styles.emailRow}>
+              <label htmlFor="notification-email" className={styles.emailLabel}>
+                Email das notificações
+              </label>
+              <input
+                id="notification-email"
+                type="email"
+                placeholder={userEmail || 'exemplo@email.com'}
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                onBlur={() => {
+                  const v = emailInput.trim() || null;
+                  updateSetting({ email: v ?? null });
+                  setSettings((s) => ({ ...s, email: v ?? null }));
+                }}
+                className={styles.emailInput}
+                disabled={!settings.email_enabled}
+              />
+              <p className={styles.emailHint}>
+                Deixe em branco para usar o email da sua conta ({userEmail || '—'}).
+              </p>
             </div>
 
             <div
