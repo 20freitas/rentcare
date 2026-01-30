@@ -64,9 +64,12 @@ export default function Features() {
                 <div className={styles.header}>
                     <span className={styles.label}>Funcionalidades</span>
                     <h2 className={styles.title}>Tudo o que precisa para gerir</h2>
-                    <p className={styles.subtitle}>Ferramentas poderosas para simplificar o seu dia a dia.</p>
+                    <p className={styles.subtitle}>
+                        Ferramentas poderosas para simplificar o seu dia a dia: imóveis, inquilinos, rendas, documentos, manutenção e lembretes.
+                    </p>
                 </div>
 
+                <p className={styles.gridLabel}>Ferramentas incluídas</p>
                 <div className={styles.grid}>
                     {allFeatures.map((feature, index) => (
                         <motion.div
