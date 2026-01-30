@@ -28,15 +28,16 @@ import styles from "./Calendar.module.css";
    tenantName?: string;
  }
  
- const mapProperty = (row: Record<string, unknown>): Property => ({
-   id: row.id as string,
-   address: row.address as string,
-   tenantName: (row.tenant_name as string) || undefined,
-   paymentDay: (row.payment_day as number) || 0,
-   status: (row.status as Property["status"]) || "pending",
-   image_url: (row.image_url as string) || undefined,
-   title: (row.title as string) || undefined,
- });
+const mapProperty = (row: Record<string, unknown>): Property => ({
+  id: row.id as string,
+  address: row.address as string,
+  tenantName: (row.tenant_name as string) || undefined,
+  paymentDay: (row.payment_day as number) || 0,
+  status: (row.status as Property["status"]) || "pending",
+  image_url: (row.image_url as string) || undefined,
+  title: (row.title as string) || undefined,
+  rentAmount: (row.rent_amount as number) ?? 0,
+});
  
  const mapTenant = (row: Record<string, unknown>): Tenant => ({
    id: row.id as string,

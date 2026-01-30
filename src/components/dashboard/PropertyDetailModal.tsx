@@ -75,7 +75,8 @@ export default function PropertyDetailModal({ isOpen, onClose, property, onEdit 
                  problemDate: o.problem_date,
                  cost: o.cost,
                  status: o.status,
-                 attachmentUrls: o.attachment_urls
+                 attachmentUrls: o.attachment_urls,
+                 createdAt: o.created_at
              })));
         }
 
