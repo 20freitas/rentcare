@@ -1,0 +1,206 @@
+.wrapper {
+  min-height: 100%;
+  padding: 0;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.greeting {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.statCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.statCardHighlight {
+  background: linear-gradient(135deg, var(--secondary) 0%, #6290b0 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(122, 169, 202, 0.25);
+}
+
+.statCardHighlight .statLabel,
+.statCardHighlight .statValue {
+  color: #fff;
+}
+
+.statCardDanger {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.statCardDanger .statValue {
+  color: #dc2626;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.sectionLink {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.sectionLink:hover {
+  text-decoration: underline;
+}
+
+.nextPaymentsCard {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.paymentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+}
+
+.paymentRow:last-child {
+  border-bottom: none;
+}
+
+.paymentRow:hover {
+  background: #f8fafc;
+}
+
+.paymentLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.paymentAddress {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paymentMeta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.paymentAmount {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary);
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.paymentRowLate .paymentAmount {
+  color: #dc2626;
+}
+
+.emptyState {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.loadingWrap {
+  padding: 2rem;
+  text-align: center;
+  color: #64748b;
+}
+
+/* Desktop: 3 columns for stats, more spacing */
+@media (min-width: 640px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .statCard {
+    min-height: 100px;
+    padding: 1.25rem;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statCardHighlight {
+    grid-column: span 1;
+  }
+}
