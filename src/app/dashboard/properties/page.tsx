@@ -6,20 +6,27 @@ import { Property } from '@/types/property';
 import PropertyCard from '@/components/dashboard/PropertyCard';
 import PropertyStats from '@/components/dashboard/PropertyStats';
 import AddPropertyModal from '@/components/dashboard/AddPropertyModal';
+import PropertyDetailModal from '@/components/dashboard/PropertyDetailModal';
 import { supabase } from '@/lib/supabase';
 import styles from './Properties.module.css';
 
 // Map DB row to Property type
-const mapProperty = (dbRow: any): Property => ({
-    id: dbRow.id,
-    title: dbRow.title, // Adicionado para mostrar o nome personalizado
-    address: dbRow.address,
-    rentAmount: dbRow.rent_amount,
-    paymentDay: dbRow.payment_day,
-    tenantName: dbRow.tenant_name,
-    status: dbRow.status,
-    image_url: dbRow.image_url
-});
+const mapProperty = (dbRow: any): Property => {
+    // Check if tenants array exists and has items
+    const tenants = dbRow.tenants as any[];
+    const realTenantName = tenants && tenants.length > 0 ? tenants[0].name : null;
+
+    return {
+        id: dbRow.id,
+        title: dbRow.title, // Adicionado para mostrar o nome personalizado
+        address: dbRow.address,
+        rentAmount: dbRow.rent_amount,
+        paymentDay: dbRow.payment_day,
+        tenantName: realTenantName || dbRow.tenant_name, // Prefer real tenant, fallback to manual
+        status: dbRow.status,
+        image_url: dbRow.image_url
+    };
+};
 
 export default function PropertiesPage() {
     const [properties, setProperties] = useState<Property[]>([]);
@@ -29,12 +36,14 @@ export default function PropertiesPage() {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [propertyToDelete, setPropertyToDelete] = useState<string | null>(null);
     const [propertyToEdit, setPropertyToEdit] = useState<Property | null>(null);
+    const [propertyToView, setPropertyToView] = useState<Property | null>(null);
 
     const fetchProperties = async () => {
         setLoading(true);
+        // Fetch properties with their associated tenants
         const { data, error } = await supabase
             .from('properties')
-            .select('*')
+            .select('*, tenants(name)')
             .order('created_at', { ascending: false });
 
         if (data) {
@@ -73,7 +82,15 @@ export default function PropertiesPage() {
                 image_url: image_url
             })
             .eq('id', data.id);
+        
         if (!error) {
+            // Update tenant link if selected
+            if (data.selectedTenantId) {
+                await supabase
+                    .from('tenants')
+                    .update({ property_id: data.id })
+                    .eq('id', data.selectedTenantId);
+            }
             fetchProperties();
         } else {
             console.error("Error editing property:", error);
@@ -99,7 +116,7 @@ export default function PropertiesPage() {
         }
 
         // 2. Insert into DB
-        const { error } = await supabase.from('properties').insert({
+        const { data: newProperty, error } = await supabase.from('properties').insert({
             title: data.title || null, // Adicionado para guardar o nome personalizado
             address: data.address,
             rent_amount: data.rentAmount,
@@ -107,9 +124,16 @@ export default function PropertiesPage() {
             tenant_name: data.tenantName || null,
             status: data.status || 'pending',
             image_url: image_url
-        });
+        }).select().single();
 
-        if (!error) {
+        if (!error && newProperty) {
+            // Update tenant link if selected
+            if (data.selectedTenantId) {
+                await supabase
+                    .from('tenants')
+                    .update({ property_id: newProperty.id })
+                    .eq('id', data.selectedTenantId);
+            }
             fetchProperties(); // Reload list
         } else {
             console.error("Error adding property:", error);
@@ -218,7 +242,7 @@ export default function PropertiesPage() {
                         property={property}
                         onMarkPaid={handleMarkPaid}
                         onDelete={(id) => setPropertyToDelete(id)}
-                        onDetails={() => setPropertyToEdit(property)}
+                        onDetails={() => setPropertyToView(property)}
                     />
                 ))}
             </div>
@@ -244,6 +268,17 @@ export default function PropertiesPage() {
                     isEdit
                 />
             )}
+
+            {/* Modal de Detalhes */}
+            <PropertyDetailModal 
+                isOpen={!!propertyToView}
+                onClose={() => setPropertyToView(null)}
+                property={propertyToView}
+                onEdit={(prop) => {
+                    setPropertyToView(null);
+                    setPropertyToEdit(prop);
+                }}
+            />
 
             {/* Custom Delete Confirmation Modal */}
             {propertyToDelete && (

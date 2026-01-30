@@ -1,8 +1,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Plus } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { Tenant } from '@/types/tenant';
 
 interface AddPropertyModalProps {
     isOpen: boolean;
@@ -18,12 +20,41 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
     const [rentAmount, setRentAmount] = useState(initialData?.rentAmount?.toString() || '');
     const [paymentDay, setPaymentDay] = useState(initialData?.paymentDay?.toString() || '');
     const [tenantName, setTenantName] = useState(initialData?.tenantName || '');
+    const [selectedTenantId, setSelectedTenantId] = useState<string>('');
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState(initialData?.image_url || '');
+    const [tenants, setTenants] = useState<Tenant[]>([]);
 
+    // Fetch tenants for dropdown
+    useEffect(() => {
+        if (isOpen) {
+            const fetchTenants = async () => {
+                const { data } = await supabase.from('tenants').select('*');
+                if (data) setTenants(data);
+            };
+            fetchTenants();
+        }
+    }, [isOpen]);
 
-    // Atualiza campos se mudar o initialData (abrir outro imóvel)
-    React.useEffect(() => {
+    // Fetch current tenant for this property if editing
+    useEffect(() => {
+        if (isOpen && isEdit && initialData?.id) {
+            const fetchCurrentTenant = async () => {
+                const { data } = await supabase
+                    .from('tenants')
+                    .select('id')
+                    .eq('property_id', initialData.id)
+                    .single();
+                if (data) {
+                    setSelectedTenantId(data.id);
+                }
+            };
+            fetchCurrentTenant();
+        }
+    }, [isOpen, isEdit, initialData]);
+
+    // Update fields when initialData changes
+    useEffect(() => {
         if (initialData) {
             setTitle(initialData.title || '');
             setAddress(initialData.address || '');
@@ -32,12 +63,14 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
             setTenantName(initialData.tenantName || '');
             setImageUrl(initialData.image_url || '');
             setImageFile(null);
+            // selectedTenantId is handled by the other useEffect
         } else {
             setTitle('');
             setAddress('');
             setRentAmount('');
             setPaymentDay('');
             setTenantName('');
+            setSelectedTenantId('');
             setImageUrl('');
             setImageFile(null);
         }
@@ -53,6 +86,7 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
             rentAmount: Number(rentAmount),
             paymentDay: Number(paymentDay),
             tenantName,
+            selectedTenantId, // Pass this to parent
             imageFile,
             image_url: imageUrl
         };
@@ -69,9 +103,21 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
         setRentAmount('');
         setPaymentDay('');
         setTenantName('');
+        setSelectedTenantId('');
         setImageFile(null);
         setImageUrl('');
         onClose();
+    };
+
+    const handleTenantSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const id = e.target.value;
+        setSelectedTenantId(id);
+        if (id) {
+            const tenant = tenants.find(t => t.id === id);
+            if (tenant) setTenantName(tenant.name);
+        } else {
+            setTenantName('');
+        }
     };
 
     return (
@@ -219,19 +265,28 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
 
                     {/* Tenant Name */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Nome do Inquilino (Opcional)</label>
-                        <input
-                            type="text"
-                            placeholder="Nome do inquilino atual"
-                            value={tenantName}
-                            onChange={(e) => setTenantName(e.target.value)}
+                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Inquilino</label>
+                        
+                        {/* Select Existing Tenant */}
+                        <select
+                            value={selectedTenantId}
+                            onChange={handleTenantSelect}
                             style={{
                                 padding: '0.75rem',
                                 border: '1px solid #e2e8f0',
                                 borderRadius: '8px',
-                                fontSize: '0.95rem'
+                                fontSize: '0.95rem',
+                                background: 'white',
+                                marginBottom: '0.5rem'
                             }}
-                        />
+                        >
+                            <option value="">-- Selecionar Inquilino Existente --</option>
+                            {tenants.map(t => (
+                                <option key={t.id} value={t.id}>
+                                    {t.name} {t.nif ? `(NIF: ${t.nif})` : ''}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div style={{ display: 'flex', marginTop: '1rem', gap: '1rem' }}>

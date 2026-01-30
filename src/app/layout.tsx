@@ -5,8 +5,13 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'RentCare - Gestão de Imóveis Inteligente',
+  title: 'RentCare | Gestão de Imóveis',
   description: 'Nunca mais se esqueça de uma renda. Gestão de imóveis, inquilinos e contratos num só sítio.',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 import Navbar from '@/components/Navbar';
