@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Property } from '@/types/property';
 import { Document, DocumentType } from '@/types/document';
-import { Plus, Search, Eye, Download, Trash2 } from 'lucide-react';
+import { Plus, Search, Eye, Download, Trash2, FileText, Home, Calendar, FolderOpen } from 'lucide-react';
 import styles from './Documents.module.css';
 
 const DOCUMENT_TYPES: { label: string; value: DocumentType }[] = [
@@ -127,6 +127,25 @@ export default function DocumentsPage() {
         );
     }, [documents, search]);
 
+    const documentStats = useMemo(() => {
+        const total = documents.length;
+        const now = new Date();
+        const thisMonth = documents.filter((d) => {
+            const dDate = new Date(d.uploadDate);
+            return dDate.getMonth() === now.getMonth() && dDate.getFullYear() === now.getFullYear();
+        }).length;
+        const byProperty = documents.reduce<Record<string, number>>((acc, d) => {
+            acc[d.propertyId] = (acc[d.propertyId] || 0) + 1;
+            return acc;
+        }, {});
+        const topPropertyId = Object.entries(byProperty).sort((a, b) => b[1] - a[1])[0]?.[0];
+        const byType = documents.reduce<Record<string, number>>((acc, d) => {
+            acc[d.type] = (acc[d.type] || 0) + 1;
+            return acc;
+        }, {});
+        return { total, thisMonth, topPropertyId, byType };
+    }, [documents]);
+
     const getPropertyLabel = (propertyId: string) => {
         const p = properties.find((x) => x.id === propertyId);
         return p ? (p.title || p.address) : propertyId;
@@ -199,6 +218,57 @@ export default function DocumentsPage() {
                     <Plus size={20} />
                     Adicionar Documento
                 </button>
+            </div>
+
+            <div className={styles.statsGrid}>
+                <div className={`${styles.statCard} ${styles.statCardBlue}`}>
+                    <div className={styles.statIconBlue}>
+                        <FileText size={24} />
+                    </div>
+                    <div>
+                        <p className={styles.statLabel}>Total de documentos</p>
+                        <p className={styles.statValue}>{documentStats.total}</p>
+                    </div>
+                </div>
+                <div className={`${styles.statCard} ${styles.statCardGreen}`}>
+                    <div className={styles.statIconGreen}>
+                        <Calendar size={24} />
+                    </div>
+                    <div>
+                        <p className={styles.statLabel}>Este mês</p>
+                        <p className={styles.statValue}>{documentStats.thisMonth}</p>
+                    </div>
+                </div>
+                {documentStats.topPropertyId && (
+                    <div className={`${styles.statCard} ${styles.statCardPurple}`}>
+                        <div className={styles.statIconPurple}>
+                            <Home size={24} />
+                        </div>
+                        <div>
+                            <p className={styles.statLabel}>Imóvel com mais documentos</p>
+                            <p className={styles.statValue} style={{ fontSize: '1rem' }} title={getPropertyLabel(documentStats.topPropertyId)}>
+                                {getPropertyLabel(documentStats.topPropertyId).length > 18
+                                    ? getPropertyLabel(documentStats.topPropertyId).slice(0, 18) + '…'
+                                    : getPropertyLabel(documentStats.topPropertyId)}
+                            </p>
+                        </div>
+                    </div>
+                )}
+                {Object.keys(documentStats.byType).length > 0 && (
+                    <div className={`${styles.statCard} ${styles.statCardBlue}`}>
+                        <div className={styles.statIconBlue}>
+                            <FolderOpen size={24} />
+                        </div>
+                        <div>
+                            <p className={styles.statLabel}>Por tipo</p>
+                            <p className={styles.statValue} style={{ fontSize: '0.9rem' }}>
+                                {Object.entries(documentStats.byType)
+                                    .map(([t, n]) => `${t}: ${n}`)
+                                    .join(', ')}
+                            </p>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className={styles.filterSection}>
