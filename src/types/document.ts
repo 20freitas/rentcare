@@ -8,5 +8,6 @@ export interface Document {
   uploadDate: string;
   tenantName?: string;
   notes?: string;
+  expirationDate?: string;
   fileUrl: string;
 }

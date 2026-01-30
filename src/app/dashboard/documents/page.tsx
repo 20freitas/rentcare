@@ -35,6 +35,7 @@ const mapDocument = (row: Record<string, unknown>): Document => ({
     uploadDate: (row.upload_date ?? row.uploadDate) as string,
     tenantName: (row.tenant_name ?? row.tenantName) as string | undefined,
     notes: (row.notes) as string | undefined,
+    expirationDate: (row.expiration_date ?? row.expirationDate) as string | undefined,
     fileUrl: (row.file_url ?? row.fileUrl) as string,
 });
 
@@ -53,6 +54,7 @@ export default function DocumentsPage() {
         file: null as File | null,
         tenantName: '',
         notes: '',
+        expirationDate: '',
     });
 
     // Inquilinos únicos a partir dos imóveis (dados reais)
@@ -171,6 +173,7 @@ export default function DocumentsPage() {
             upload_date: new Date().toISOString(),
             tenant_name: form.tenantName || null,
             notes: form.notes || null,
+            expiration_date: form.type === 'Contrato' && form.expirationDate ? form.expirationDate : null,
             file_url: urlData?.publicUrl,
         });
         setUploading(false);
@@ -179,7 +182,7 @@ export default function DocumentsPage() {
             return;
         }
         setShowModal(false);
-        setForm({ propertyId: (selectedPropertyFilter || properties[0]?.id) ?? '', type: 'Contrato', file: null, tenantName: '', notes: '' });
+        setForm({ propertyId: (selectedPropertyFilter || properties[0]?.id) ?? '', type: 'Contrato', file: null, tenantName: '', notes: '', expirationDate: '' });
         // Recarregar lista
         let query = supabase.from('documents').select('*').order('upload_date', { ascending: false });
         if (selectedPropertyFilter) query = query.eq('property_id', selectedPropertyFilter);
@@ -313,6 +316,11 @@ export default function DocumentsPage() {
                                 <div className={styles.docMeta}>
                                     <span>{doc.type}</span>
                                     <span>{new Date(doc.uploadDate).toLocaleDateString('pt-PT')}</span>
+                                    {doc.expirationDate && (
+                                        <span title="Fim do Contrato" style={{ color: '#d97706', fontWeight: 500 }}>
+                                            Expira: {new Date(doc.expirationDate).toLocaleDateString('pt-PT')}
+                                        </span>
+                                    )}
                                     {!selectedPropertyFilter && (
                                         <span title="Imóvel">{getPropertyLabel(doc.propertyId)}</span>
                                     )}
@@ -378,6 +386,24 @@ export default function DocumentsPage() {
                                     ))}
                                 </select>
                             </div>
+                            
+                            {/* Campo de Data de Fim do Contrato - Visível apenas para Contratos */}
+                            {form.type === 'Contrato' && (
+                                <div className={styles.formGroup}>
+                                    <label>Data de Fim do Contrato</label>
+                                    <input
+                                        type="date"
+                                        value={form.expirationDate}
+                                        onChange={(e) => setForm((f) => ({ ...f, expirationDate: e.target.value }))}
+                                        className={styles.formInput}
+                                        style={{ borderColor: '#3b82f6' }}
+                                    />
+                                    <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>
+                                        Define uma data para receberes notificações futuras.
+                                    </p>
+                                </div>
+                            )}
+
                             <div className={styles.formGroup}>
                                 <label>Ficheiro</label>
                                 <input
