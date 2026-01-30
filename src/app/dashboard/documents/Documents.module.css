@@ -296,6 +296,10 @@
         min-width: 100%;
     }
 
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
     .docRow {
         flex-direction: column;
         align-items: flex-start;

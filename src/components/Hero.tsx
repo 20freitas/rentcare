@@ -19,7 +19,7 @@ export default function Hero() {
             transition={{ duration: 0.4 }}
           >
             <span className={styles.tagDot} />
-            Gestão simplificada
+            Gestão moderna
           </motion.span>
 
           <motion.h1

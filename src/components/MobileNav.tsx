@@ -160,7 +160,6 @@ function FullSidebarContent({ closeMenu }: { closeMenu: () => void }) {
 
             <SectionTitle>Gestão</SectionTitle>
             <MenuLink href="/dashboard/properties" icon={Home}>Imóveis</MenuLink>
-            <MenuLink href="/dashboard/rents" icon={Banknote}>Rendas</MenuLink>
             <MenuLink href="/dashboard/tenants" icon={Users}>Inquilinos</MenuLink>
             <MenuLink href="/dashboard/documents" icon={FileText}>Documentos</MenuLink>
             <MenuLink href="/dashboard/maintenance" icon={Wrench}>Manutenção</MenuLink>

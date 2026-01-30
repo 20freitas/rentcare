@@ -1,6 +1,6 @@
  "use client";
  
- import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
  import { supabase } from "@/lib/supabase";
  import { Property } from "@/types/property";
  import { Tenant } from "@/types/tenant";
@@ -14,6 +14,7 @@
    Users,
    FileText,
  } from "lucide-react";
+import styles from "./Calendar.module.css";
  
  type ReminderType = "Pagamento" | "FimContrato";
  
@@ -168,7 +169,7 @@
          <h1 style={{ fontSize: "1.8rem", fontWeight: 700, color: "#0f172a" }}>Lembretes / Datas</h1>
        </div>
  
-       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "2rem" }}>
+      <div className={styles.statsGrid}>
          <div style={{ background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 1px 3px rgba(0,0,0,0.05)", borderLeft: "4px solid #3b82f6" }}>
            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
              <div style={{ background: "#eff6ff", padding: 10, borderRadius: "50%", color: "#1d4ed8" }}>
@@ -195,7 +196,7 @@
          </div>
        </div>
  
-       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+      <div className={styles.contentGrid}>
          <div style={{ background: "white", padding: "1.25rem", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#0f172a", marginBottom: "1rem" }}>Caixa de Entrada</h2>
            {loading ? (
@@ -207,7 +208,19 @@
                const dLeft = daysUntil(item.date);
                const isUrgent = dLeft <= 2;
                return (
-                 <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem", background: "#f8fafc", borderRadius: "8px", marginBottom: "0.5rem" }}>
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.75rem",
+                    background: "#f8fafc",
+                    borderRadius: "8px",
+                    marginBottom: "0.5rem",
+                    flexWrap: "wrap"
+                  }}
+                >
                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                      <div style={{ background: isUrgent ? "#fef2f2" : "#eff6ff", padding: 8, borderRadius: "50%", color: isUrgent ? "#dc2626" : "#1d4ed8" }}>
                        {item.type === "Pagamento" ? <Users size={18} /> : <FileText size={18} />}
@@ -217,7 +230,7 @@
                        <div style={{ color: "#64748b", fontSize: "0.9rem" }}>{item.description}</div>
                      </div>
                    </div>
-                   <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isUrgent ? "#dc2626" : "#64748b", fontWeight: 600 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isUrgent ? "#dc2626" : "#64748b", fontWeight: 600, marginTop: "0.5rem" }}>
                      <Clock size={16} />
                      <span>{dLeft} dias</span>
                    </div>
@@ -238,7 +251,17 @@
                const dLeft = daysUntil(item.date);
                const prop = item.propertyId ? propertyById.get(item.propertyId) : undefined;
                return (
-                 <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem", borderBottom: "1px solid #e2e8f0" }}>
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.75rem",
+                    borderBottom: "1px solid #e2e8f0",
+                    flexWrap: "wrap"
+                  }}
+                >
                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                      <div style={{ background: "#f1f5f9", padding: 8, borderRadius: "50%", color: "#334155" }}>
                        <Calendar size={18} />
@@ -263,7 +286,7 @@
                        </div>
                      </div>
                    </div>
-                   <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: dLeft < 0 ? "#64748b" : "#0f172a", fontWeight: 600 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: dLeft < 0 ? "#64748b" : "#0f172a", fontWeight: 600, marginTop: "0.5rem" }}>
                      <AlertCircle size={16} />
                      <span>{dLeft < 0 ? "Passado" : dLeft === 0 ? "Hoje" : `Em ${dLeft} dias`}</span>
                    </div>

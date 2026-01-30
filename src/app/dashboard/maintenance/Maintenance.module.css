@@ -323,6 +323,45 @@
         min-width: 100%;
     }
 
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cardActions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .costSummary {
+        margin-left: 0;
+    }
+}
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .addButton {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filterSection {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .propertySelect {
+        min-width: 100%;
+    }
+
     .costSummary {
         margin-left: 0;
     }
