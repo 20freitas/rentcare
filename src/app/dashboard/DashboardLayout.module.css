@@ -16,8 +16,7 @@
         margin-left: 0;
         width: 100%;
         padding: 1rem;
-        padding-top: 80px;
-        /* Space for top header */
-        padding-bottom: 2rem;
+        padding-top: calc(var(--mobile-nav-height) + 1rem);
+        padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
     }
 }

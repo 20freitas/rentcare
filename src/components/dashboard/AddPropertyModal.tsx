@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Plus } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Tenant } from '@/types/tenant';
+import styles from './Modal.module.css';
 
 interface AddPropertyModalProps {
     isOpen: boolean;
@@ -121,50 +122,20 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
     };
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            backdropFilter: 'blur(4px)'
-        }}>
-            <div style={{
-                background: 'white',
-                borderRadius: '12px',
-                width: '100%',
-                maxWidth: '500px',
-                padding: '2rem',
-                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-                animation: 'slideIn 0.3s ease-out',
-                maxHeight: '90vh',
-                overflowY: 'auto'
-            }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>{isEdit ? 'Editar Imóvel' : 'Adicionar Imóvel'}</h2>
-                    <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+        <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
+            <div className={styles.modal}>
+                <div className={styles.header}>
+                    <h2 className={styles.title}>{isEdit ? 'Editar Imóvel' : 'Adicionar Imóvel'}</h2>
+                    <button onClick={onClose} className={styles.closeBtn}>
                         <X size={24} />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form onSubmit={handleSubmit} className={styles.form}>
                     {/* Image Upload */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Foto do Imóvel (Opcional)</label>
-                        <div style={{
-                            border: '2px dashed #e2e8f0',
-                            borderRadius: '8px',
-                            padding: '1.5rem',
-                            textAlign: 'center',
-                            cursor: 'pointer',
-                            background: '#f8fafc',
-                            transition: 'all 0.2s'
-                        }}>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Foto do Imóvel (Opcional)</label>
+                        <div className={styles.imageUpload}>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -188,97 +159,72 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
                     </div>
 
                     {/* Title */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Título (Ex: Casa na Praia)</label>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Título (Ex: Casa na Praia)</label>
                         <input
                             type="text"
                             placeholder="Nome para identificar o imóvel"
                             required
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            style={{
-                                padding: '0.75rem',
-                                border: '1px solid #e2e8f0',
-                                borderRadius: '8px',
-                                fontSize: '0.95rem'
-                            }}
+                            className={styles.input}
                         />
                     </div>
 
                     {/* Address */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Morada do Imóvel *</label>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Morada do Imóvel *</label>
                         <input
                             type="text"
                             placeholder="Ex: Rua das Flores, 123"
                             required
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            style={{
-                                padding: '0.75rem',
-                                border: '1px solid #e2e8f0',
-                                borderRadius: '8px',
-                                fontSize: '0.95rem'
-                            }}
+                            className={styles.input}
                         />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className={styles.inputRow}>
                         {/* Rent Amount */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                            <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Valor Renda (€) *</label>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Valor Renda (€) *</label>
                             <input
                                 type="number"
                                 placeholder="0.00"
                                 required
+                                inputMode="decimal"
                                 value={rentAmount}
                                 onChange={(e) => setRentAmount(e.target.value)}
-                                style={{
-                                    padding: '0.75rem',
-                                    border: '1px solid #e2e8f0',
-                                    borderRadius: '8px',
-                                    fontSize: '0.95rem'
-                                }}
+                                className={styles.input}
                             />
                         </div>
 
                         {/* Payment Day */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                            <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Dia Pagamento *</label>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Dia Pagamento *</label>
                             <input
                                 type="number"
                                 min="1"
                                 max="31"
                                 placeholder="1-31"
                                 required
+                                inputMode="numeric"
                                 value={paymentDay}
                                 onChange={(e) => setPaymentDay(e.target.value)}
-                                style={{
-                                    padding: '0.75rem',
-                                    border: '1px solid #e2e8f0',
-                                    borderRadius: '8px',
-                                    fontSize: '0.95rem'
-                                }}
+                                className={styles.input}
                             />
                         </div>
                     </div>
 
                     {/* Tenant Name */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                        <label style={{ fontSize: '0.9rem', fontWeight: 500, color: '#334155' }}>Inquilino</label>
-                        
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Inquilino</label>
+
                         {/* Select Existing Tenant */}
                         <select
                             value={selectedTenantId}
                             onChange={handleTenantSelect}
-                            style={{
-                                padding: '0.75rem',
-                                border: '1px solid #e2e8f0',
-                                borderRadius: '8px',
-                                fontSize: '0.95rem',
-                                background: 'white',
-                                marginBottom: '0.5rem'
-                            }}
+                            className={styles.input}
                         >
                             <option value="">-- Selecionar Inquilino Existente --</option>
                             {tenants.map(t => (
@@ -289,43 +235,20 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
                         </select>
                     </div>
 
-                    <div style={{ display: 'flex', marginTop: '1rem', gap: '1rem' }}>
+                    <div className={styles.actions}>
                         <button
                             type="button"
                             onClick={onClose}
-                            style={{
-                                flex: 1,
-                                padding: '0.75rem',
-                                border: '1px solid #e2e8f0',
-                                borderRadius: '8px',
-                                background: 'white',
-                                color: '#475569',
-                                fontWeight: 600,
-                                cursor: 'pointer'
-                            }}
+                            className={styles.cancelBtn}
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            style={{
-                                flex: 2,
-                                padding: '0.75rem',
-                                border: 'none',
-                                borderRadius: '8px',
-                                background: 'var(--brand-gradient, #7aa9ca)',
-                                backgroundColor: '#7aa9ca',
-                                color: 'white',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '0.5rem'
-                            }}
+                            className={styles.submitBtn}
                         >
                             <Plus size={20} />
-                            Adicionar Imóvel
+                            {isEdit ? 'Guardar Alterações' : 'Adicionar Imóvel'}
                         </button>
                     </div>
                 </form>
@@ -333,3 +256,4 @@ export default function AddPropertyModal({ isOpen, onClose, onAdd, initialData, 
         </div>
     );
 }
+

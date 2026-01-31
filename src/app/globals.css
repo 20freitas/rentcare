@@ -24,6 +24,15 @@
   --nav-height: 80px;
   --radius: 8px;
   /* Slightly sharper for professional feel */
+
+  /* Mobile-specific variables */
+  --mobile-nav-height: 60px;
+  --bottom-nav-height: 64px;
+  --touch-target-min: 44px;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
 }
 
 * {

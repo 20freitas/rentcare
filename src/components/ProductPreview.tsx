@@ -34,7 +34,7 @@ export default function ProductPreview() {
               <span className={styles.dot} />
               <span className={styles.dot} />
             </div>
-            <div className={styles.browserUrl}>rentcare.vercel.app/dashboard</div>
+            <div className={styles.browserUrl}>rentcare.pt/dashboard</div>
           </div>
           <div className={styles.imageWrap}>
             <Image

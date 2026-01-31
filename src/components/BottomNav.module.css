@@ -1,0 +1,70 @@
+.bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+    padding-bottom: var(--safe-area-bottom);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    z-index: 100;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 8px;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .bottomNav {
+        display: flex;
+    }
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    padding: 4px 12px;
+    text-decoration: none;
+    color: #94a3b8;
+    transition: color 0.15s ease, transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.navItem:active {
+    transform: scale(0.92);
+}
+
+.navItemActive {
+    color: var(--secondary);
+}
+
+.navItemActive .navIcon {
+    color: var(--secondary);
+}
+
+.navIcon {
+    transition: transform 0.15s ease;
+}
+
+.navItemActive .navIcon {
+    transform: translateY(-1px);
+}
+
+.navLabel {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+.navItemActive .navLabel {
+    color: var(--secondary);
+}

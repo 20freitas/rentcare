@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import AddTenantModal from '@/components/dashboard/AddTenantModal';
 import TenantDetailModal from '@/components/dashboard/TenantDetailModal';
 import { Tenant } from '@/types/tenant';
+import styles from './Tenants.module.css';
 
 export default function TenantsPage() {
     const [tenants, setTenants] = useState<Tenant[]>([]);
@@ -28,7 +29,7 @@ export default function TenantsPage() {
                 )
             `)
             .order('name', { ascending: true });
-        
+
         if (data) {
             setTenants(data as Tenant[]);
         }
@@ -39,7 +40,7 @@ export default function TenantsPage() {
         fetchTenants();
     }, []);
 
-    const filteredTenants = tenants.filter(t => 
+    const filteredTenants = tenants.filter(t =>
         t.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -50,30 +51,30 @@ export default function TenantsPage() {
                 .from('tenants')
                 .update(data)
                 .eq('id', data.id);
-            
+
             if (!error) {
-                 // Update Property if needed
-                 if (data.property_id) {
-                     await supabase.from('properties')
+                // Update Property if needed
+                if (data.property_id) {
+                    await supabase.from('properties')
                         .update({
                             rent_amount: data.rent_amount,
                             payment_day: data.payment_day,
                             tenant_name: data.name // Keep tenant name in sync in properties table
                         })
                         .eq('id', data.property_id);
-                 }
-                 fetchTenants();
+                }
+                fetchTenants();
             }
         } else {
             // Create Tenant
             const { error } = await supabase
                 .from('tenants')
                 .insert([data]);
-            
+
             if (!error) {
-                 // Update Property if linked
-                 if (data.property_id) {
-                     await supabase.from('properties')
+                // Update Property if linked
+                if (data.property_id) {
+                    await supabase.from('properties')
                         .update({
                             rent_amount: data.rent_amount,
                             payment_day: data.payment_day,
@@ -81,8 +82,8 @@ export default function TenantsPage() {
                             status: 'paid' // Assuming new tenant starts fresh or whatever logic, but let's keep it simple
                         })
                         .eq('id', data.property_id);
-                 }
-                 fetchTenants();
+                }
+                fetchTenants();
             }
         }
     };
@@ -93,7 +94,7 @@ export default function TenantsPage() {
                 .from('tenants')
                 .delete()
                 .eq('id', id);
-            
+
             if (!error) {
                 setIsDetailModalOpen(false);
                 fetchTenants();
@@ -121,27 +122,16 @@ export default function TenantsPage() {
     };
 
     return (
-        <div style={{ paddingBottom: '2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <div>
-                    <h1 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#0f172a' }}>Inquilinos</h1>
-                    <p style={{ color: '#64748b' }}>Gerencie todos os seus inquilinos num só lugar</p>
+        <div className={styles.wrapper}>
+            {/* Header */}
+            <div className={styles.header}>
+                <div className={styles.headerText}>
+                    <h1>Inquilinos</h1>
+                    <p>Gerencie todos os seus inquilinos num só lugar</p>
                 </div>
                 <button
                     onClick={() => { setIsEdit(false); setSelectedTenant(null); setIsAddModalOpen(true); }}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '8px',
-                        background: '#0f172a',
-                        color: 'white',
-                        fontWeight: 600,
-                        border: 'none',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }}
+                    className={styles.addButton}
                 >
                     <Plus size={20} />
                     Adicionar Inquilino
@@ -149,133 +139,69 @@ export default function TenantsPage() {
             </div>
 
             {/* Search */}
-            <div style={{ position: 'relative', marginBottom: '2rem' }}>
-                <Search size={20} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <div className={styles.searchContainer}>
+                <Search size={20} className={styles.searchIcon} />
                 <input
                     type="text"
                     placeholder="Procurar por nome..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{
-                        width: '100%',
-                        padding: '1rem 1rem 1rem 3rem',
-                        borderRadius: '12px',
-                        border: '1px solid #e2e8f0',
-                        fontSize: '1rem',
-                        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
-                    }}
+                    className={styles.searchInput}
                 />
             </div>
 
             {loading ? (
-                <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Carregando inquilinos...</div>
+                <div className={styles.loading}>Carregando inquilinos...</div>
             ) : filteredTenants.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '3rem', background: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                    <User size={48} style={{ color: '#cbd5e1', marginBottom: '1rem' }} />
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#334155' }}>Nenhum inquilino encontrado</h3>
-                    <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>Adicione inquilinos para começar a gerir as rendas.</p>
+                <div className={styles.emptyState}>
+                    <User size={48} style={{ color: '#cbd5e1' }} />
+                    <h3>Nenhum inquilino encontrado</h3>
+                    <p>Adicione inquilinos para começar a gerir as rendas.</p>
                 </div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                <div className={styles.grid}>
                     {filteredTenants.map((tenant) => (
-                        <div
-                            key={tenant.id}
-                            style={{
-                                background: 'white',
-                                borderRadius: '16px',
-                                padding: '1.5rem',
-                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                                border: '1px solid #f1f5f9',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '1.5rem',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                        >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                    <div style={{
-                                        width: '48px',
-                                        height: '48px',
-                                        borderRadius: '50%',
-                                        background: '#f8fafc',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: '#64748b',
-                                        fontWeight: 600,
-                                        fontSize: '1.2rem',
-                                        border: '1px solid #e2e8f0'
-                                    }}>
+                        <div key={tenant.id} className={styles.card}>
+                            {/* Card Header */}
+                            <div className={styles.cardHeader}>
+                                <div className={styles.tenantInfo}>
+                                    <div className={styles.avatar}>
                                         {tenant.name.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>{tenant.name}</h3>
-                                        <p style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '0.25rem' }}>
+                                        <h3 className={styles.tenantName}>{tenant.name}</h3>
+                                        <p className={styles.tenantProperty}>
                                             {tenant.properties?.title || tenant.properties?.address || 'Sem imóvel'}
                                         </p>
                                     </div>
                                 </div>
                                 {/* Rent Status Badge */}
-                                <div style={{ 
-                                    padding: '0.35rem 0.75rem', 
-                                    borderRadius: '999px', 
-                                    fontSize: '0.75rem', 
-                                    fontWeight: 600,
-                                    background: '#f1f5f9',
-                                    color: '#64748b',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.35rem'
-                                }}>
+                                <div className={styles.statusBadge}>
                                     <Circle size={10} fill="currentColor" />
                                     Ainda não marcado
                                 </div>
                             </div>
 
-                            <div style={{ height: '1px', background: '#f1f5f9' }} />
+                            <div className={styles.divider} />
 
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                                    <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 500 }}>Renda Mensal</span>
-                                    <span style={{ fontWeight: 700, color: '#0f172a', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            {/* Card Footer */}
+                            <div className={styles.cardFooter}>
+                                <div className={styles.rentInfo}>
+                                    <span className={styles.rentLabel}>Renda Mensal</span>
+                                    <span className={styles.rentValue}>
                                         <Euro size={18} strokeWidth={2.5} />
                                         {tenant.rent_amount || '0.00'}
                                     </span>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.25rem' }}>
-                                    <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 500 }}>Dia Pagamento</span>
-                                    <span style={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem' }}>Dia {tenant.payment_day || '?'}</span>
+                                <div className={styles.paymentInfo}>
+                                    <span className={styles.rentLabel}>Dia Pagamento</span>
+                                    <span className={styles.paymentDay}>Dia {tenant.payment_day || '?'}</span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={() => handleCardClick(tenant)}
-                                style={{
-                                    width: '100%',
-                                    padding: '0.75rem',
-                                    borderRadius: '8px',
-                                    background: '#f8fafc',
-                                    color: '#475569',
-                                    fontWeight: 600,
-                                    border: '1px solid #e2e8f0',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    marginTop: 'auto'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = '#f1f5f9';
-                                    e.currentTarget.style.borderColor = '#cbd5e1';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#f8fafc';
-                                    e.currentTarget.style.borderColor = '#e2e8f0';
-                                }}
+                                className={styles.detailsButton}
                             >
                                 <FileText size={16} />
                                 Ver Detalhes
@@ -284,6 +210,7 @@ export default function TenantsPage() {
                     ))}
                 </div>
             )}
+
 
             <AddTenantModal
                 isOpen={isAddModalOpen}

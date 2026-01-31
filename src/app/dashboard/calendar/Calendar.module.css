@@ -1,24 +1,91 @@
- .statsGrid {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   gap: 1.5rem;
-   margin-bottom: 2rem;
- }
- 
- .contentGrid {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   gap: 1.5rem;
- }
- 
- @media (max-width: 768px) {
-   .statsGrid {
-     grid-template-columns: 1fr;
-     gap: 1rem;
-   }
- 
-   .contentGrid {
-     grid-template-columns: 1fr;
-     gap: 1rem;
-   }
- }
+.pageWrapper {
+  padding-bottom: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.headerTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.headerSubtitle {
+  color: #64748b;
+  margin: 0.25rem 0 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.reminderItem {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.reminderItem:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .headerTitle {
+    font-size: 1.5rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .reminderItem {
+    padding: 0.875rem 0;
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+  }
+}

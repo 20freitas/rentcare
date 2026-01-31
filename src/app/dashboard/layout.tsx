@@ -2,6 +2,7 @@
 
 import Sidebar from '@/components/Sidebar';
 import MobileNav from '@/components/MobileNav';
+import BottomNav from '@/components/BottomNav';
 import styles from './DashboardLayout.module.css';
 
 export default function DashboardLayout({
@@ -16,6 +17,8 @@ export default function DashboardLayout({
                 {children}
             </div>
             <MobileNav />
+            <BottomNav />
         </div>
     );
 }
+

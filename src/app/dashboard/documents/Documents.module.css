@@ -47,16 +47,50 @@
     gap: 1rem;
 }
 
-.statCardGreen { border-left: 4px solid #10b981; }
-.statCardBlue { border-left: 4px solid #3b82f6; }
-.statCardPurple { border-left: 4px solid #8b5cf6; }
+.statCardGreen {
+    border-left: 4px solid #10b981;
+}
 
-.statIconGreen { background: #ecfdf5; padding: 10px; border-radius: 50%; color: #059669; }
-.statIconBlue { background: #eff6ff; padding: 10px; border-radius: 50%; color: #3b82f6; }
-.statIconPurple { background: #f5f3ff; padding: 10px; border-radius: 50%; color: #7c3aed; }
+.statCardBlue {
+    border-left: 4px solid #3b82f6;
+}
 
-.statLabel { font-size: 0.85rem; color: #64748b; font-weight: 500; }
-.statValue { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+.statCardPurple {
+    border-left: 4px solid #8b5cf6;
+}
+
+.statIconGreen {
+    background: #ecfdf5;
+    padding: 10px;
+    border-radius: 50%;
+    color: #059669;
+}
+
+.statIconBlue {
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 50%;
+    color: #3b82f6;
+}
+
+.statIconPurple {
+    background: #f5f3ff;
+    padding: 10px;
+    border-radius: 50%;
+    color: #7c3aed;
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+}
 
 .filterSection {
     background: white;
@@ -278,35 +312,142 @@
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
     }
 
     .addButton {
         width: 100%;
         justify-content: center;
+        min-height: var(--touch-target-min);
+        padding: 0.875rem 1.5rem;
     }
 
     .filterSection {
         flex-direction: column;
         align-items: stretch;
+        padding: 0.875rem;
+        gap: 0.75rem;
     }
 
     .propertySelect {
+        width: 100%;
         min-width: 100%;
+        min-height: var(--touch-target-min);
+        font-size: 16px;
+        /* Prevents iOS zoom */
+    }
+
+    .searchInput {
+        min-height: var(--touch-target-min);
+        font-size: 16px;
+        /* Prevents iOS zoom */
     }
 
     .statsGrid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .statCard {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .statValue {
+        font-size: 1.25rem;
+    }
+
+    .docListCard {
+        border-radius: 12px;
+        margin-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
     }
 
     .docRow {
         flex-direction: column;
         align-items: flex-start;
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    .docName {
+        font-size: 0.95rem;
+        word-break: break-word;
+    }
+
+    .docMeta {
+        font-size: 0.8rem;
+        gap: 0.5rem;
     }
 
     .docActions {
         width: 100%;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        gap: 0.75rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .docActions a,
+    .docActions button {
+        width: var(--touch-target-min);
+        height: var(--touch-target-min);
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+
+    /* Modal fullscreen on mobile */
+    .modalOverlay {
+        align-items: flex-end;
+    }
+
+    .modalBox {
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
+        max-height: 90dvh;
+        overflow-y: auto;
+        padding: 1.5rem;
+        padding-bottom: calc(1.5rem + var(--safe-area-bottom));
+        animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .formInput,
+    .formSelect {
+        min-height: var(--touch-target-min);
+        font-size: 16px;
+        /* Prevents iOS zoom */
+    }
+
+    .submitBtn,
+    .cancelBtn {
+        min-height: var(--touch-target-min);
+    }
+}
+
+@media (max-width: 380px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
     }
 }
