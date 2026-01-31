@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Home, Users, Wallet, Bell, FileText, BarChart3, Hammer, CreditCard, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Home, Users, Wallet, Bell, FileText, BarChart3 } from 'lucide-react';
 import styles from './Features.module.css';
 
 const allFeatures = [
@@ -34,26 +34,6 @@ const allFeatures = [
         icon: <BarChart3 size={24} />,
         title: "Dashboard Visão Geral",
         description: "Saiba instantaneamente o total recebido e o que está pendente no mês."
-    },
-    {
-        icon: <CreditCard size={24} />,
-        title: "Pagamentos Avançados",
-        description: "Registo de pagamentos parciais e históricos anuais."
-    },
-    {
-        icon: <TrendingUp size={24} />,
-        title: "Relatórios Financeiros",
-        description: "Exportação para PDF/Excel para facilitar o seu IRS."
-    },
-    {
-        icon: <Hammer size={24} />,
-        title: "Gestão de Manutenção",
-        description: "Registe reparações, custos e mantenha um histórico por imóvel."
-    },
-    {
-        icon: <ShieldCheck size={24} />,
-        title: "Contratos Inteligentes",
-        description: "Alertas avançados de término e sugestões de atualização de renda."
     }
 ];
 

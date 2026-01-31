@@ -1,119 +1,311 @@
-/* List-style section: no card grid, continuous list with dividers */
 .section {
-  padding: 5rem 0 6rem;
-  background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* Phone wrapper */
+.phoneWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* Clean iPhone Frame - Thin borders */
+.phoneFrame {
+  position: relative;
+  width: 280px;
+  height: 580px;
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  border-radius: 45px;
+  padding: 5px;
+  box-shadow:
+    0 50px 100px -20px rgba(0, 0, 0, 0.4),
+    0 30px 60px -15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Side buttons */
+.silencer {
+  position: absolute;
+  background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+  border-radius: 3px;
+  width: 4px;
+  height: 20px;
+  left: -4px;
+  top: 100px;
+}
+
+.volumeUp,
+.volumeDown {
+  position: absolute;
+  background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+  border-radius: 3px;
+  width: 4px;
+  height: 40px;
+  left: -4px;
+}
+
+.volumeUp {
+  top: 140px;
+}
+
+.volumeDown {
+  top: 195px;
+}
+
+.buttonOn {
+  position: absolute;
+  background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+  border-radius: 3px;
+  width: 4px;
+  height: 65px;
+  right: -4px;
+  top: 160px;
+}
+
+/* Phone screen - clean, no notch */
+.phoneScreen {
+  position: relative;
   width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.label {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--secondary);
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: var(--foreground);
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.02em;
-}
-
-.subtitle {
-  color: #475569;
-  font-size: 1.05rem;
-  max-width: 520px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-.list {
+  height: 100%;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 40px;
   overflow: hidden;
 }
 
-.row {
+.phoneImage {
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Home indicator */
+.homeIndicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Text content */
+.textContent {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 1.25rem;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #f1f5f9;
-  transition: background 0.2s;
 }
 
-.row:last-child {
-  border-bottom: none;
+.comingSoonBadge {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #7aa9ca 0%, #5b8db0 100%);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.row:hover {
-  background: #f8fafc;
+.appTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.iconWrap {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  background: rgba(122, 169, 202, 0.12);
+.appDescription {
+  font-size: 1.1rem;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.storeButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.storeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1f2937;
+  color: white;
+  padding: 0.75rem 1.25rem;
   border-radius: 12px;
+  cursor: default;
+  opacity: 0.6;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.storeButton::after {
+  content: 'Em breve';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #7aa9ca;
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.storeButton:hover {
+  opacity: 0.75;
+}
+
+.storeIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--secondary);
 }
 
-.content {
-  min-width: 0;
+.storeText {
+  display: flex;
+  flex-direction: column;
 }
 
-.cardTitle {
-  font-size: 1.05rem;
+.storeSmall {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.storeName {
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--foreground);
-  margin-bottom: 0.35rem;
 }
 
-.cardDesc {
+.notifyText {
   font-size: 0.9rem;
   color: #64748b;
-  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
 }
 
+/* Mobile responsive */
 @media (max-width: 768px) {
   .section {
-    padding: 3.5rem 0 4rem;
+    padding: 3rem 0;
   }
 
-  .title {
-    font-size: 1.5rem;
+  .twoColumn {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
   }
 
-  .row {
-    padding: 1rem 1.25rem;
-    gap: 1rem;
+  .phoneWrapper {
+    order: 1;
   }
 
-  .iconWrap {
-    width: 42px;
-    height: 42px;
+  .textContent {
+    order: 2;
+    align-items: center;
+  }
+
+  .phoneFrame {
+    width: 220px;
+    height: 460px;
+    border-radius: 38px;
+    padding: 4px;
+  }
+
+  .phoneScreen {
+    border-radius: 35px;
+  }
+
+  .homeIndicator {
+    bottom: 16px;
+    width: 80px;
+    height: 3px;
+  }
+
+  .silencer {
+    width: 3px;
+    height: 16px;
+    left: -3px;
+    top: 80px;
+  }
+
+  .volumeUp,
+  .volumeDown {
+    width: 3px;
+    height: 32px;
+    left: -3px;
+  }
+
+  .volumeUp {
+    top: 110px;
+  }
+
+  .volumeDown {
+    top: 155px;
+  }
+
+  .buttonOn {
+    width: 3px;
+    height: 52px;
+    right: -3px;
+    top: 130px;
+  }
+
+  .appTitle {
+    font-size: 1.8rem;
+  }
+
+  .appDescription {
+    font-size: 1rem;
+  }
+
+  .storeButtons {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .storeButton {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .phoneFrame {
+    width: 180px;
+    height: 380px;
+    border-radius: 32px;
+    padding: 3px;
+  }
+
+  .phoneScreen {
+    border-radius: 30px;
+  }
+
+  .homeIndicator {
+    bottom: 14px;
+    width: 65px;
   }
 }
