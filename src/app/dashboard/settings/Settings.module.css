@@ -303,7 +303,7 @@
   }
 
   .card:last-child {
-    margin-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
+    margin-bottom: calc(var(--safe-area-bottom) + 1rem);
   }
 
   .cardHeader {

@@ -367,7 +367,7 @@
 
     .docListCard {
         border-radius: 12px;
-        margin-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
+        margin-bottom: calc(var(--safe-area-bottom) + 1rem);
     }
 
     .docRow {

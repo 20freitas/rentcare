@@ -56,7 +56,7 @@
 
 @media (max-width: 768px) {
   .pageWrapper {
-    padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
+    padding-bottom: calc(var(--safe-area-bottom) + 1rem);
   }
 
   .header {

@@ -17,6 +17,6 @@
         width: 100%;
         padding: 1rem;
         padding-top: calc(var(--mobile-nav-height) + 1rem);
-        padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 1rem);
+        padding-bottom: calc(var(--safe-area-bottom) + 1rem);
     }
 }
